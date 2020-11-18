@@ -22,8 +22,8 @@ var svg = d3.select("#barChart")
     .range([0,width])
     
     var yScale = d3.scaleLinear()
-    .domain([0,400])
-    .range([height,0])
+    .domain([0,500])
+    .range([0, height])
 
     
     
@@ -54,7 +54,7 @@ console.log("values4", namesValus);
         
         //add y
 var y = d3.scaleLinear()
-.domain([0,400])
+.domain([0,500])
 .range([height, 0])
 svg.append("g")
 .call(d3.axisLeft(y));
@@ -69,7 +69,7 @@ svg.append("g")
 .attr("height", function(d){return yScale(parseInt(d.COMPLETED_PASS));})
 .attr("fill", "green")
         .attr("x", function(d,i){return i*47})
-        .attr('y', function(d){ return (height - parseInt(y(d.COMPLETED_PASS)))})
+        .attr('y', function(d){ return (height - parseInt(yScale(d.COMPLETED_PASS)))})
         
     
         
@@ -151,8 +151,8 @@ console.log("values3", passes);
  .range([height,0])
 
  var yScale = d3.scaleLinear()
-   .domain([0,200])
- .range([height,0])
+   .domain([0,50])
+ .range([0, height])
  
  
  var namesValus = [];
@@ -180,7 +180,7 @@ svg2.append("g")
 
 //add y
 var y = d3.scaleLinear()
-.domain([0,200])
+.domain([0,50])
 .range([height, 0])
 svg2.append("g")
 .call(d3.axisLeft(y));
@@ -193,9 +193,9 @@ svg2.append("g")
 .append("rect")
 .attr("width", function(d){return 45})
 .attr("height", function(d){return yScale(parseInt(d.PASSING_TD));})
-.attr("fill","green")
+.attr("fill","purple")
 .attr("x", function(d,i){return i*47})
-.attr('y', function(d){ return (height - parseInt(y(d.PASSING_TD))); })
+.attr('y', function(d){ return (height - parseInt(yScale(d.PASSING_TD))); })
 
 //tooltip
 .on("mouseenter", function(passes)
@@ -273,7 +273,7 @@ var svg = d3.select("#percents")
 
 //Add X axis
   var x = d3.scaleLinear()
-    .domain([0, 800])
+    .domain([0, 700])
     .range([ 0, width ]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -299,36 +299,42 @@ var svg = d3.select("#percents")
       .attr("cx", function (d) { return x(d.ATTEMPTED_PASS); } )
       .attr("cy", function (d) { return y(d.PASS_PCT); } )
       .attr("r", 7)
-      .style("fill", "green")
+      .style("fill", "blue")
       .style("opacity", 1)
-      .style("stroke", "black")
-   //tooltip
-//.on("mouseenter", function(percentages)
-//    {
-//    
-//    var xPos = d3.event.pageX;
-//    var yPos = d3.event.pageY;
-//    
-//    d3.select("#tooltip3")
-//    .classed("hidden3", false)
-//    .style("top", yPos+"px")
-//    .style("left", xPos+"px")
-//    
-//    d3.select("#percents")
-//    .text("Passing Percentage"+" "+percentages.PASS_PCT);
-//    
-//    d3.select("#attempted3")
-//    .text("Attempted:"+" "+percentages.ATTEMPTED_PASS);
-//    })
-//    
-//    //tool tip off
-//
-//.on("mouseleave", function()
-//    {
-//    d3.select("#tooltip3")
-//    .classed("hidden2", true);
-//})
+      .style("stroke", "yellow")
 
+    
+            //tooltip
+.on("mouseenter" ,function(percentages)
+    {
+    var xPos = d3.event.pageX;
+    var yPos = d3.event.pageY;
+    
+    d3.select("#tooltip3")
+    .classed("hidden3", false)
+    .style("top",yPos+"px")
+    .style("left",xPos+"px")
+    
+    d3.select("#percents2")
+    .text("Pass Percentage:"+percentages.PASS_PCT);
+      
+    d3.select("#attempted3")
+    .text("Attempted:"+percentages.ATTEMPTED_PASS);
+      
+      d3.select("#name2")
+      .text("Player:"+" "+percentages.PLAYER_NAME)
+    
+    
+}) //tool tip off
+        .on("mouseleave",function()
+            {
+    d3.select("#tooltip3")
+    .classed("hidden3",true);
+    
+})
+    
+
+    
 var labels = d3.select("#percents svg")
 .append("g")
 .classed("labels", true);
@@ -338,14 +344,14 @@ labels.append("text")
 .classed("title", true)
 .attr("text-anchor", "middle")
 .attr("x", margin.left+width/2)
-.attr("y", margin.top)
+.attr("y", margin.top-10)
 
 labels.append("text")
 .text("Passes Attempted")
 .classed("label", true)
 .attr("text-anchor", "middle")
 .attr("x", margin.left+width/2)
-.attr("y", height+(margin.bottom+margin.top))
+.attr("y", height+(margin.bottom+margin.top-60))
 
 labels.append("g")
 .attr("transform", "translate(20,"+(margin.top+(height/2))+")")
@@ -388,4 +394,7 @@ var succFCN = function(values)
 
 Promise.all(promises)
 .then(succFCN, failFCN)
-    
+
+
+
+
