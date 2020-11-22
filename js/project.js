@@ -1,7 +1,7 @@
 var margin  = {top: 40, bottom: 100, right: 30, left: 70},
     width = 4000 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
-var svg = d3.select("#barChart")
+var svg = d3.select("#completions")
 .append("svg")
 .attr("width", width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom)
@@ -27,20 +27,20 @@ var svg = d3.select("#barChart")
 
     
     
-var namesValus = [];
+var getNames = [];
         
 passing.forEach(gettingName);
         
         
 function gettingName(item, mainScreen) {
-    namesValus.push(item.PLAYER_NAME)
+    getNames.push(item.PLAYER_NAME)
 }        
         
-console.log("values4", namesValus);
+console.log("values4", getNames);
         
-//add X
+
     var x = d3.scaleBand()
-    .domain(namesValus)
+    .domain(getNames)
     .range([0,width])
     .padding([.1])
     svg.append("g")
@@ -52,14 +52,14 @@ console.log("values4", namesValus);
         .style("text-anchor", "end");
         console.log(height);
         
-        //add y
+       
 var y = d3.scaleLinear()
 .domain([0,500])
 .range([height, 0])
 svg.append("g")
 .call(d3.axisLeft(y));
         
-//show the bars
+
 svg.append("g")
 .selectAll("g")
 .data(passing)
@@ -73,7 +73,7 @@ svg.append("g")
         
     
         
-        //tooltip
+       
 .on("mouseenter" ,function(passing)
     {
     var xPos = d3.event.pageX;
@@ -90,7 +90,7 @@ svg.append("g")
     .text("Completed:"+passing.COMPLETED_PASS);
     
     
-}) //tool tip off
+}) 
         .on("mouseleave",function()
             {
     d3.select("#tooltip")
@@ -129,134 +129,6 @@ svg.append("g")
     
     
     
-    //second graph
-    
-    var svg2 = d3.select("#touchdowns")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate("+margin.left+","+margin.top+")");
-
-var initGraph2 = function(passes){
-var subgroups = passes.columns.slice(0)
-
-var groups = d3.map(passes, function(d){return(d.group)}).keys()
-
-console.log("valuegggs", subgroups);
-console.log("values3", passes);
-
- var xScale= d3.scaleBand()
- .domain([0,100])
- .range([height,0])
-
- var yScale = d3.scaleLinear()
-   .domain([0,50])
- .range([0, height])
- 
- 
- var namesValus = [];
-
-passes.forEach(gettingName);
-
-function gettingName(item, mainScreen) {
-    namesValus.push(item.PLAYER_NAME)
-}
-
-console.log("values4", namesValus);
-
-//add x
-var x = d3.scaleBand()
-.domain(namesValus)
-.range([0,width])
-.padding([0.2])
-svg2.append("g")
-.attr("transform", "translate("+(0)+","+(height)+")")
-.attr("class", "text")
-.call(d3.axisBottom(x))
-.selectAll("text")
-.attr("transform", "translate(-10,0)rotate(-45)")
-.style("text-anchor", "end");          console.log(height)
-
-//add y
-var y = d3.scaleLinear()
-.domain([0,50])
-.range([height, 0])
-svg2.append("g")
-.call(d3.axisLeft(y));
-
-//show the bars
-svg2.append("g")
-.selectAll("g")
-.data(passes)
-.enter()
-.append("rect")
-.attr("width", function(d){return 45})
-.attr("height", function(d){return yScale(parseInt(d.PASSING_TD));})
-.attr("fill","purple")
-.attr("x", function(d,i){return i*47})
-.attr('y', function(d){ return (height - parseInt(yScale(d.PASSING_TD))); })
-
-//tooltip
-.on("mouseenter", function(passes)
-    {
-    
-    var xPos = d3.event.pageX;
-    var yPos = d3.event.pageY;
-    
-    d3.select("#tooltip2")
-    .classed("hidden2", false)
-    .style("top", yPos+"px")
-    .style("left", xPos+"px")
-    
-    d3.select("#comp2")
-    .text("Completed Touchdowns:"+" "+passes.PASSING_TD);
-    
-    d3.select("#attempted2")
-    .text("Attempted:"+" "+passes.ATTEMPTED_PASS);
-    })
-    
-    //tool tip off
-
-.on("mouseleave", function()
-    {
-    d3.select("#tooltip2")
-    .classed("hidden2", true);
-})
-
-var labels = d3.select("#touchdowns svg")
-.append("g")
-.classed("labels", true);
-
-labels.append("text")
-.text("NFL QB Touchdowns 2019")
-.classed("title", true)
-.attr("text-anchor", "middle")
-.attr("x", margin.left+width/2)
-.attr("y", margin.top)
-
-labels.append("text")
-.text("Player")
-.classed("label", true)
-.attr("text-anchor", "middle")
-.attr("x", margin.left+width/2)
-.attr("y", height+(margin.bottom+margin.top))
-
-labels.append("g")
-.attr("transform", "translate(20,"+(margin.top+(height/2))+")")
-.append("text")
-.text("Touchdowns Completed")
-.classed("label", true)
-.attr("text-anchor", "middle")
-.attr("transform", "rotate(90)")
-   
-}
-
-
-
-
-
-//graph 3
 initGraph3 = function(percentages) {
     var margins = {top: 10, right: 30, bottom: 30, left: 60},
     width = 460 - margins.left - margins.right,
@@ -271,7 +143,7 @@ var svg = d3.select("#percents")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-//Add X axis
+
   var x = d3.scaleLinear()
     .domain([0, 700])
     .range([ 0, width ]);
@@ -280,7 +152,7 @@ var svg = d3.select("#percents")
     .call(d3.axisBottom(x));
 
 
-// Add Y axis
+
   var y = d3.scaleLinear()
     .domain([0, 100])
     .range([ height, 0]);
@@ -290,7 +162,7 @@ var svg = d3.select("#percents")
 
 
 
- // Add dots
+
   svg.append('g')
     .selectAll("dot")
     .data(percentages.filter(function(d,i){return i<50})) 
@@ -304,7 +176,7 @@ var svg = d3.select("#percents")
       .style("stroke", "yellow")
 
     
-            //tooltip
+           
 .on("mouseenter" ,function(percentages)
     {
     var xPos = d3.event.pageX;
@@ -325,7 +197,7 @@ var svg = d3.select("#percents")
       .text("Player:"+" "+percentages.PLAYER_NAME)
     
     
-}) //tool tip off
+}) 
         .on("mouseleave",function()
             {
     d3.select("#tooltip3")
@@ -363,6 +235,134 @@ labels.append("g")
    
 
 }
+
+
+    
+    
+    
+    
+    
+    var svg2 = d3.select("#touchdowns")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate("+margin.left+","+margin.top+")");
+
+var initGraph2 = function(passes){
+var subgroups = passes.columns.slice(0)
+
+var groups = d3.map(passes, function(d){return(d.group)}).keys()
+
+console.log("valuegggs", subgroups);
+console.log("values3", passes);
+
+ var xScale= d3.scaleBand()
+ .domain([0,100])
+ .range([height,0])
+
+ var yScale = d3.scaleLinear()
+   .domain([0,50])
+ .range([0, height])
+ 
+ 
+ var getNames = [];
+
+passes.forEach(gettingName);
+
+function gettingName(item, mainScreen) {
+    getNames.push(item.PLAYER_NAME)
+}
+
+console.log("values4", getNames);
+
+
+var x = d3.scaleBand()
+.domain(getNames)
+.range([0,width])
+.padding([0.2])
+svg2.append("g")
+.attr("transform", "translate("+(0)+","+(height)+")")
+.attr("class", "text")
+.call(d3.axisBottom(x))
+.selectAll("text")
+.attr("transform", "translate(-10,0)rotate(-45)")
+.style("text-anchor", "end");          console.log(height)
+
+
+var y = d3.scaleLinear()
+.domain([0,50])
+.range([height, 0])
+svg2.append("g")
+.call(d3.axisLeft(y));
+
+
+svg2.append("g")
+.selectAll("g")
+.data(passes)
+.enter()
+.append("rect")
+.attr("width", function(d){return 45})
+.attr("height", function(d){return yScale(parseInt(d.PASSING_TD));})
+.attr("fill","purple")
+.attr("x", function(d,i){return i*47})
+.attr('y', function(d){ return (height - parseInt(yScale(d.PASSING_TD))); })
+
+
+.on("mouseenter", function(passes)
+    {
+    
+    var xPos = d3.event.pageX;
+    var yPos = d3.event.pageY;
+    
+    d3.select("#tooltip2")
+    .classed("hidden2", false)
+    .style("top", yPos+"px")
+    .style("left", xPos+"px")
+    
+    d3.select("#comp2")
+    .text("Completed Touchdowns:"+" "+passes.PASSING_TD);
+    
+    d3.select("#attempted2")
+    .text("Attempted:"+" "+passes.ATTEMPTED_PASS);
+    })
+    
+    
+
+.on("mouseleave", function()
+    {
+    d3.select("#tooltip2")
+    .classed("hidden2", true);
+})
+
+var labels = d3.select("#touchdowns svg")
+.append("g")
+.classed("labels", true);
+
+labels.append("text")
+.text("NFL QB Touchdowns 2019")
+.classed("title", true)
+.attr("text-anchor", "middle")
+.attr("x", margin.left+width/2)
+.attr("y", margin.top)
+
+labels.append("text")
+.text("Player")
+.classed("label", true)
+.attr("text-anchor", "middle")
+.attr("x", margin.left+width/2)
+.attr("y", height+(margin.bottom+margin.top))
+
+labels.append("g")
+.attr("transform", "translate(20,"+(margin.top+(height/2))+")")
+.append("text")
+.text("Touchdowns Completed")
+.classed("label", true)
+.attr("text-anchor", "middle")
+.attr("transform", "rotate(90)")
+   
+}
+
 
 
 

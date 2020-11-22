@@ -1,6 +1,15 @@
+body{
+    background: grey;
+}
+
+
 .text
 {
     font-size: 12;
+}
+
+#p1{
+    background: green
 }
 #tooltip.hidden
 {
@@ -16,6 +25,10 @@
     border-radius: 10px;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
     pointer-events: none
+}
+
+#p2{
+    background: blue;
 }
  
 #tooltip2.hidden2
@@ -34,6 +47,10 @@
     pointer-events: none;
 }
 
+#p3{
+    background: purple
+}
+
 #tooltip3.hidden3
 {
     display: none
@@ -48,6 +65,10 @@
     border-radius: 10px;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
     pointer-events: none;
+}
+#hypo{
+    background: red;
+    font-size: 27px
 }
 
 
